@@ -1,10 +1,13 @@
-from ast import alias
-from http import client
 import discord
 from discord.ext import commands
 import random
 
-TOKEN = 'OTUzNTI3MDQwMDcyNjM0MzY5.YjF3Qg.BS8SHiZiryl5F0LnOVWzYfLXi1I'
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+TOKEN = getenv("TOKEN")
+
 
 class CustomHelpCommand(commands.HelpCommand):
 
@@ -19,19 +22,21 @@ class CustomHelpCommand(commands.HelpCommand):
         )
         await self.get_destination().send(embed=embed)
 
-client = commands.Bot(command_prefix='.si ', help_command=CustomHelpCommand())
+bot = commands.Bot(command_prefix='.si ', help_command=CustomHelpCommand())
 
-@client.event
+@bot.event
 async def on_ready():
     print('Bot is online.')
 
-@client.command(aliases=['tess', 'less', 'bess'])
+@bot.command(aliases=['tess', 'less', 'bess'])
 async def test(ctx):
     await ctx.send(embed=discord.Embed(
         description='this is a test command'
     ))
 
-client.run(TOKEN)
+bot.load_extension("test")
+
+bot.run(TOKEN)
 
 # client = discord.Client()
 
